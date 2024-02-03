@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Workbench&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Roboto+Slab:wght@100;300;600;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Pacifico&family=Roboto+Slab:wght@100;300;600;900&display=swap');
+
+
+.no-scollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.pro-1 {
+    font-family: 'Workbench', sans-serif;
+}
