@@ -1,15 +1,35 @@
 import React, { useEffect, useRef, useState } from "react";
 
 
-import Nav from "../warehouse/nav";
+import { HomeNav } from "../warehouse/nav";
 const Home: React.FC = () => {
     document.title = "Home";
+    const status : any = localStorage.getItem('statusLOUDROOMS');
+    const sessionID : any = localStorage.getItem("sessionIDLOUDROOMS"); 
+    useEffect(() => {
+        console.log(status);
+        console.log(sessionID);
+        return () => {
+        }
+    }, [])
+
     return (<>
-        <Nav />
-        <div className="w-screen h-screen text-center px-4 py-10 bg-black">
-            <h1 className="text-3xl font-bold pro-1 text-white">Hello, Make something.</h1><br />
-            <p className="pro-1 text-3xl font-bold text-white">Here's a quote by Elon Musk:</p>
-            <blockquote className="pro-1 pro-1 text-3xl font-bold text-white">"If something is important enough, even if the odds are stacked against you, you should still do it."</blockquote>
+        <HomeNav status={status} />
+        <div className="w-screen flex justify-center h-screen bg-gray-100 p-20">
+            <div className="w-2/3 min-w-[300px] border h-[max-content] px-4 py-2 rounded-xl">
+                <div className="px-4 py-2 space-x-4">
+                    <label htmlFor="roomcode" className="text-sm">Roomcode</label>
+                    <input type="text" name="roomcode" className="px-4 py-2 rounded-xl outline-none border" />
+                </div>
+                <div className="text-end space-x-1">
+                    <button type="button" className="bg-green-500 px-4 py-2 text-sm text-gray-100 rounded-xl font-bold hover:bg-green-300 active:bg-green-800 border">
+                        Create New Server
+                    </button>
+                    <button type="button" className="bg-gray-100 px-4 py-2 text-sm text-gray-500 rounded-xl font-bold hover:bg-green-300 active:bg-green-800 border">
+                        Join a Server
+                    </button>
+                </div>
+            </div>
         </div>
     </>)
 }
