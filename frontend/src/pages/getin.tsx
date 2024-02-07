@@ -54,7 +54,7 @@ const GetIn: React.FC = () => {
                 return { success: false, data: await Mreq.json() };
             }
         } catch (err: any) {
-            console.log(`Fetch Request failed : ${err.message}`);
+            // console.log(`Fetch Request failed : ${err.message}`);
             return { success: false };
         }
 
@@ -77,18 +77,18 @@ const GetIn: React.FC = () => {
                 if (REQUEST.success) {
                     // Request was successful
                     const mainData: any = REQUEST.data;
-                    console.log(mainData.sauceKey);
                     console.log(mainData.info);
 
                 } else {
-                    console.log("Request failed.");
-
+                    //only condition of request failed is username already exists.
+                    // console.log("Request failed.");
+                    alert("Username exists.");
                 }
             } catch (err: any) {
-                console.log(`Fetch Request failed : ${err.message}`);
+                // console.log(`Fetch Request failed : ${err.message}`);
             }
         } else {
-
+            //handle login here.
         }
     }
 

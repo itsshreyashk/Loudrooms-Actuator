@@ -4,7 +4,7 @@ import http from 'http';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { Server, Socket } from 'socket.io';
-import { LOG, SGUP } from './webutils/db';
+import { SignUp } from './webutils/db';
 import Session from './webutils/sessions';
 dotenv.config();
 
@@ -65,24 +65,32 @@ app.post('/user/signup', async (req: Request, res: Response) => {
     const email: string = body.email;
 
     console.log("Request...");
-    
-    const newDatabaseObject: any = new SGUP(username, password, age, gender, email)
+
+    const newDatabaseObject: any = new SignUp(username, password, age, gender, email)
 
     try {
         const status: any = await newDatabaseObject.createUser();
-        const sauceKey: string = getRandomSessionKey();
-        await new Session(sauceKey).addSession();
-        console.log(`Created.`);
-        
-        res.status(200).json({
-            info: "User created successfully.",
-            sauceKey: sauceKey,
-        })
+
+        if (status===true) {
+            const sauceKey: string = getRandomSessionKey();
+            await new Session(sauceKey).addSession();
+            console.log(`Created.`);
+
+            res.status(200).json({
+                info: "User created successfully.",
+                sauceKey: sauceKey,
+            })
+        } else {
+            res.status(500).json({
+                info: "Username already exists.",
+            })
+        }
+
     } catch (err: any) {
         res.status(500).json({
             info: "Error creating user.",
         })
-        console.log(`Failed.`);
+        console.log(`Failed. ${err}`);
     }
 });
 // Start the server and listen on the specified port
