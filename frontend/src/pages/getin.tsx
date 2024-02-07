@@ -17,6 +17,9 @@ const GetIn: React.FC = () => {
 
     const [sessionID, setSessionID] = useState("");
 
+    async function Log(username : string, password : string) {
+        /*Function to Log IN.*/
+    }
 
 
     const HandleAuthentication: React.MouseEventHandler<HTMLButtonElement> = async () => {
