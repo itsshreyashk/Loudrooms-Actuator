@@ -21,6 +21,11 @@ const GetIn: React.FC = () => {
         /*Function to Log IN.*/
     }
 
+    async function SUP(username : string, password : string, age : string, gender : string, phone : string, email : string) {
+        /*Function to Sign UP.*/
+
+    }
+
 
     const HandleAuthentication: React.MouseEventHandler<HTMLButtonElement> = async () => {
 
