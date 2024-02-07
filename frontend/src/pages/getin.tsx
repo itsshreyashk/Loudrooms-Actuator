@@ -20,25 +20,73 @@ const GetIn: React.FC = () => {
     }
     async function Log(username: string, password: string) {
         /*Function to Log IN. (/user/login)*/
-        const fetchURL = "http://localhost:3001/user/login";
+        const URL = "http://localhost:3001/user/login";
         const fetchOptions: FetchOptions = {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ username: username, password: password}),
+            body: JSON.stringify({ username: username, password: password }),
         };
+        try {
+
+        } catch (err: any) {
+            console.log(`Fetch Request failed : ${err.message}`);
+        }
     }
 
-    async function SUP(username: string, password: string, age: string, gender: string, phone: string, email: string) {
+    async function SUP(username: string, password: string, age: number, gender: string, phone: string, email: string) {
         /*Function to Sign UP.*/
+        const URL = "http://localhost:3001/user/signup";
+        const fetchOptions: FetchOptions = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username: username, password: password, age: age, gender: gender, phone: phone, email: email }),
+        };
+        try {
+            const Mreq = await fetch(URL, fetchOptions);
+
+            if (Mreq.status === 200) {
+                return { success: true, data: await Mreq.json() }; //This is an object returned
+            } else {
+                return { success: false, data: await Mreq.json() };
+            }
+        } catch (err: any) {
+            console.log(`Fetch Request failed : ${err.message}`);
+            return { success: false };
+        }
 
     }
 
 
     const HandleAuthentication: React.MouseEventHandler<HTMLButtonElement> = async () => {
         if (getState === "signup") {
+            const username: string = usernameRef.current?.value || "";
+            const password: string = passwordRef.current?.value || "";
+            const age: number = parseInt(ageRef.current?.value || "0", 10);
+            const gender: string = genderRef.current?.value || "";
+            const phone: string = phoneRef.current?.value || "";
+            const email: string = emailRef.current?.value || "";
 
+            try {
+                const REQUEST: any = await SUP(username, password, age, gender, phone, email);
+                console.log(REQUEST);
+
+                if (REQUEST.success) {
+                    // Request was successful
+                    const mainData: any = REQUEST.data;
+                    console.log(mainData.sauceKey);
+                    console.log(mainData.info);
+
+                } else {
+                    console.log("Request failed.");
+
+                }
+            } catch (err: any) {
+                console.log(`Fetch Request failed : ${err.message}`);
+            }
         } else {
 
         }
