@@ -38,12 +38,13 @@ io.on('connection', (socket: Socket) => {
     });
 });
 
-// Define a simple route
-app.get('/', (req: Request, res: Response) => {
-    // Send a basic HTML response
-    res.send('<h1>Server is up and running!</h1>');
+app.post('/user/login', (req: Request, res: Response) => {
+    const body: any = req.body;
 });
 
+app.post('/user/signup', (req: Request, res: Response) => {
+    const body: any = req.body;
+});
 // Start the server and listen on the specified port
 server.listen(PORT, () => {
     // Log a message indicating the server is listening

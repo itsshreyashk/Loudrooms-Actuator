@@ -13,22 +13,35 @@ const GetIn: React.FC = () => {
     const emailRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
 
 
-
-
-    const [sessionID, setSessionID] = useState("");
-
-    async function Log(username : string, password : string) {
-        /*Function to Log IN.*/
+    interface FetchOptions {
+        method: string,
+        headers: any,
+        body: any
+    }
+    async function Log(username: string, password: string) {
+        /*Function to Log IN. (/user/login)*/
+        const fetchURL = "http://localhost:3001/user/login";
+        const fetchOptions: FetchOptions = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username: username, password: password}),
+        };
     }
 
-    async function SUP(username : string, password : string, age : string, gender : string, phone : string, email : string) {
+    async function SUP(username: string, password: string, age: string, gender: string, phone: string, email: string) {
         /*Function to Sign UP.*/
 
     }
 
 
     const HandleAuthentication: React.MouseEventHandler<HTMLButtonElement> = async () => {
+        if (getState === "signup") {
 
+        } else {
+
+        }
     }
 
     return (
