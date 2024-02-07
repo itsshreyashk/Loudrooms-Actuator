@@ -4,14 +4,21 @@ const redis = new Redis();
 
 class Session {
     private sessionID: string;
-    constructor(sessionID: string) {
+    private username : string;
+    private password : string;
+    private TTL_SECONDS: number = 7 * 24 * 60 * 60; // 7 days in seconds
+
+    constructor(sessionID: string, username : string, password : string) {
         this.sessionID = sessionID;
+        this.username = username;
+        this.password = password;
     }
     // Function to add a session ID to the set
 
     async addSession(): Promise<boolean> {
         try {
             await redis.sadd('sessions', this.sessionID);
+            await redis.expire('sessions', this.TTL_SECONDS);
             console.log(`Session ID "${this.sessionID}" added to the Redis set`);
             return true
         } catch (err: any) {

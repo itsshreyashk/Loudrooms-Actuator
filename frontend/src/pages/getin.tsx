@@ -29,6 +29,12 @@ const GetIn: React.FC = () => {
             body: JSON.stringify({ username: username, password: password }),
         };
         try {
+            const Mreq = await fetch(URL, fetchOptions);
+            if (Mreq.status === 200) {
+                return { success: true, data: await Mreq.json() }; //This is an object returned
+            } else {
+                return { success: false, data: await Mreq.json() };
+            }
 
         } catch (err: any) {
             console.log(`Fetch Request failed : ${err.message}`);
@@ -77,18 +83,35 @@ const GetIn: React.FC = () => {
                 if (REQUEST.success) {
                     // Request was successful
                     const mainData: any = REQUEST.data;
-                    console.log(mainData.info);
-
+                    localStorage.setItem('sauceKey', mainData.sauceKey);
+                    localStorage.setItem('status', 'auth');
                 } else {
                     //only condition of request failed is username already exists.
-                    // console.log("Request failed.");
                     alert("Username exists.");
                 }
             } catch (err: any) {
-                // console.log(`Fetch Request failed : ${err.message}`);
             }
         } else {
             //handle login here.
+            const username: string = usernameRef.current?.value || "";
+            const password: string = passwordRef.current?.value || "";
+
+            try {
+                const REQUEST: any = await Log(username, password);
+
+                if (REQUEST.success) {
+                    // Request was successful
+                    const mainData: any = REQUEST.data;
+                    localStorage.setItem('sauceKey', mainData.sauceKey);
+                } else {
+                    //only condition of request failed is username already exists.
+                    alert("Username exists.");
+                }
+
+            } catch (err: any) {
+                console.log("Log IN failed.");
+
+            }
         }
     }
 

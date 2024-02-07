@@ -73,7 +73,14 @@ app.post('/user/signup', async (req: Request, res: Response) => {
 
         if (status===true) {
             const sauceKey: string = getRandomSessionKey();
-            await new Session(sauceKey).addSession();
+            
+            
+            
+            //make here to create sessions and associate them with username and password of the user...
+            await new Session(sauceKey, username, password).addSession();
+
+
+
             console.log(`Created.`);
 
             res.status(200).json({
