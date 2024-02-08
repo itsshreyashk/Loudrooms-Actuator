@@ -5,7 +5,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { Server, Socket } from 'socket.io';
 import { SignUp } from './webutils/db';
-import Session from './webutils/sessions';
+import { AddSession, CheckRemoveSession } from './webutils/sessions';
 dotenv.config();
 
 // Create an Express application
@@ -71,15 +71,12 @@ app.post('/user/signup', async (req: Request, res: Response) => {
     try {
         const status: any = await newDatabaseObject.createUser();
 
-        if (status===true) {
+        if (status === true) {
             const sauceKey: string = getRandomSessionKey();
-            
-            
-            
+
+
             //make here to create sessions and associate them with username and password of the user...
-            await new Session(sauceKey, username, password).addSession();
-
-
+            await new AddSession(sauceKey, username, password).addSession();
 
             console.log(`Created.`);
 

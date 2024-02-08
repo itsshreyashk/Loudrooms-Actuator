@@ -2,13 +2,13 @@ import Redis from 'ioredis';
 
 const redis = new Redis();
 
-class Session {
+class AddSession {
     private sessionID: string;
-    private username : string;
-    private password : string;
+    private username: string;
+    private password: string;
     private TTL_SECONDS: number = 7 * 24 * 60 * 60; // 7 days in seconds
 
-    constructor(sessionID: string, username : string, password : string) {
+    constructor(sessionID: string, username: string, password: string) {
         this.sessionID = sessionID;
         this.username = username;
         this.password = password;
@@ -17,28 +17,55 @@ class Session {
 
     async addSession(): Promise<boolean> {
         try {
-            await redis.sadd('sessions', this.sessionID);
-            await redis.expire('sessions', this.TTL_SECONDS);
-            console.log(`Session ID "${this.sessionID}" added to the Redis set`);
-            return true
+            await redis.hmset(this.sessionID, 'username', this.username, 'password', this.password);
+            await redis.expire(this.sessionID, this.TTL_SECONDS);
+            console.log(`Session ID "${this.sessionID}" added to the Redis hash with username and password`);
+            return true;
         } catch (err: any) {
             console.log(`There is an error ${err.message}`);
-            return false
+            return false;
         }
     }
-    // Function to check if a session ID exists in the set
+}
+class CheckRemoveSession {
+    private sessionID: string;
+    constructor(sessionID: string) {
+        this.sessionID = sessionID;
+    }
 
     async isSessionExist(): Promise<boolean> {
-        const exists = await redis.sismember('sessions', this.sessionID);
-        console.log(`Session ID "${this.sessionID}" exists in the Redis set: ${exists === 1}`);
+        const exists = await redis.exists(this.sessionID);
+        console.log(`Session ID "${this.sessionID}" exists in the Redis hash: ${exists === 1}`);
         return exists === 1;
     }
+    async getSessionData(): Promise<{ username: string, password: string } | null> {
+        try {
+            const exists = await redis.exists(this.sessionID);
+            if (exists === 1) {
+                const userData = await redis.hmget(this.sessionID, 'username', 'password');
+                if (userData[0] && userData[1]) {
+                    console.log(`Session ID "${this.sessionID}" exists in the Redis hash. Username: ${userData[0]}, Password: ${userData[1]}`);
+                    return { username: userData[0], password: userData[1] };
+                } else {
+                    console.log(`Error retrieving user data for session ID "${this.sessionID}" from Redis hash`);
+                    return null;
+                }
+            } else {
+                console.log(`Session ID "${this.sessionID}" does not exist in the Redis hash`);
+                return null;
+            }
+        } catch (err: any) {
+            console.log(`There is an error ${err.message}`);
+            return null;
+        }
+    }
+
     // Function to remove a session ID from the set
 
     async removeSession(): Promise<boolean> {
         try {
-            const removed = await redis.srem('sessions', this.sessionID);
-            console.log(`Session ID "${this.sessionID}" removed from the Redis set: ${removed === 1}`);
+            const removed = await redis.del(this.sessionID);
+            console.log(`Session ID "${this.sessionID}" removed from the Redis hash: ${removed === 1}`);
             return true;
         } catch (err: any) {
             console.log(`There is an error ${err.message}`);
@@ -47,4 +74,5 @@ class Session {
     }
 
 }
-export default Session;
+
+export { AddSession, CheckRemoveSession };
