@@ -19,7 +19,6 @@ class AddSession {
         try {
             await redis.hmset(this.sessionID, 'username', this.username, 'password', this.password);
             await redis.expire(this.sessionID, this.TTL_SECONDS);
-            console.log(`Session ID "${this.sessionID}" added to the Redis hash with username and password`);
             return true;
         } catch (err: any) {
             console.log(`There is an error ${err.message}`);
@@ -63,7 +62,6 @@ class CheckRemoveSession {
     async removeSession(): Promise<boolean> {
         try {
             const removed = await redis.del(this.sessionID);
-            console.log(`Session ID "${this.sessionID}" removed from the Redis hash: ${removed === 1}`);
             return true;
         } catch (err: any) {
             console.log(`There is an error ${err.message}`);
