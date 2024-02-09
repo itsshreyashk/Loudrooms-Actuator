@@ -6,6 +6,8 @@ interface NavProps {
 
 const HomeNav: React.FC<{ status: string }> = ({ status }) => {
     console.log(status);
+
+    const [username, setUsername] = useState("");
     const removeSession: any = async (sessionKey: string) => {
         const URL: string = "http://localhost:3001/remove/sessions";
         const fetchOptions: any = {
@@ -28,11 +30,41 @@ const HomeNav: React.FC<{ status: string }> = ({ status }) => {
             alert("FAIL");
         }
     }
+    const getData: any = async () => {
+        try {
+            const response = await fetch('http://localhost:3001/get/data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    sauceKey: localStorage.getItem('sauceKey'),
+                    contents: ['username'],
+                })
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            setUsername(data.username);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+    useEffect(() => {
+        getData();
+        return () => {
+        }
+    }, [])
+
 
     return (
         <nav className="flex w-screen backdrop-blur-xl fixed justify-between items-center px-4 py-2 border-b">
             <div className="font-bold text-gray-800">
-                <span className="text-xl">Loudrooms</span>
+                <Link to={'/home'}>
+                    <span className="text-xl">Loudrooms</span>
+                </Link>
+
             </div>
 
             <div className="flex items-center space-x-4">
@@ -53,12 +85,15 @@ const HomeNav: React.FC<{ status: string }> = ({ status }) => {
                 )}
                 {status === 'auth' && (
                     <>
-                        <button
-                            type="button"
-                            className="px-4 py-2 border text-sm bg-gradient-to-b from-white to-gray-300 hover:from-gray-300 hover:to-gray-500 focus:outline-none focus:ring focus:ring-gray-400 focus:ring-opacity-50"
-                        >
-                            Username
-                        </button>
+                        <Link to={'/profile'}>
+                            <button
+                                type="button"
+                                className="px-4 py-2 border text-sm bg-gradient-to-b from-white to-gray-300 hover:from-gray-300 hover:to-gray-500 focus:outline-none focus:ring focus:ring-gray-400 focus:ring-opacity-50"
+                            >
+                                {username}
+                            </button>
+                        </Link>
+
                         <button type="button" className="bg-red-500 text-white px-4 py-2 rounded-full text-sm active:bg-red-600"
                             onClick={() => {
                                 removeSession(localStorage.getItem('sauceKey'));
