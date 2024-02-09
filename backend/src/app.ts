@@ -60,7 +60,6 @@ app.post('/user/login', async (req: Request, res: Response) => {
     try {
         const checkUser: any = await newLogObject.checkUser();
         if (checkUser === true) {
-            console.log("User exists.");
             const sauceKey: string = getRandomSessionKey();
             await new AddSession(sauceKey, username, password).addSession();
             res.status(200).json({
@@ -69,7 +68,6 @@ app.post('/user/login', async (req: Request, res: Response) => {
             })
 
         } else {
-            console.log("User does not exist.");
             res.status(500).json({
                 info: "Log In not Successfull.",
             })
@@ -132,9 +130,6 @@ app.post('/user/signup', async (req: Request, res: Response) => {
     const age: number = body.age;
     const gender: string = body.gender;
     const email: string = body.email;
-
-    console.log("Request...");
-
     const newDatabaseObject: any = new SignUp(username, password, age, gender, email)
 
     try {
@@ -147,7 +142,6 @@ app.post('/user/signup', async (req: Request, res: Response) => {
             //make here to create sessions and associate them with username and password of the user...
             await new AddSession(sauceKey, username, password).addSession();
 
-            console.log(`Created.`);
 
             res.status(200).json({
                 info: "User created successfully.",

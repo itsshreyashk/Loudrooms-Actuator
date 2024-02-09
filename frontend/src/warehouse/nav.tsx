@@ -14,14 +14,19 @@ const HomeNav: React.FC<{ status: string }> = ({ status }) => {
             </div>
 
             <div className="flex items-center space-x-4">
-                {status === 'unauth' && (
+                {!status && (
                     <>
-                        <button className="text-gray-800 active:opacity-70 text-sm">
-                            Login
-                        </button>
-                        <button className="bg-blue-500 text-white px-4 py-2 rounded-full text-sm active:bg-blue-600">
-                            Sign Up
-                        </button>
+                        <Link to={"/getin"}>
+                            <button className="text-gray-800 active:opacity-70 text-sm">
+                                Login
+                            </button>
+                        </Link>
+                        <Link to={"/getin"}>
+                            <button className="bg-blue-500 text-white px-4 py-2 rounded-full text-sm active:bg-blue-600">
+                                Sign Up
+                            </button>
+                        </Link>
+
                     </>
                 )}
                 {status === 'auth' && (

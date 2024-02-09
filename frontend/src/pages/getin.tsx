@@ -88,6 +88,7 @@ const GetIn: React.FC = () => {
 
                     localStorage.setItem('sauceKey', sessionKey);
                     localStorage.setItem('statusLOUDROOMS', 'auth');
+                    location.href = '/home';
                 } else {
                     //only condition of request failed is username already exists.
                     alert("Username exists.");
@@ -112,7 +113,7 @@ const GetIn: React.FC = () => {
                     localStorage.setItem('sauceKey', sessionKey);
                     localStorage.setItem('statusLOUDROOMS', 'auth');
 
-                    // location.href = '/home';
+                    location.href = '/home';
                 } else {
                     //only condition of request failed is username already exists.
                     alert("Failed Login attempt.");
