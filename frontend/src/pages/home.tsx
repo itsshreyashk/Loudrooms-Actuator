@@ -4,8 +4,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { HomeNav } from "../warehouse/nav";
 const Home: React.FC = () => {
     document.title = "Home";
-    const status : any = localStorage.getItem('statusLOUDROOMS');
-    const sessionID : any = localStorage.getItem("sessionIDLOUDROOMS"); 
+    const status: any = localStorage.getItem('statusLOUDROOMS');
+    const sessionID: any = localStorage.getItem("sessionIDLOUDROOMS");
     useEffect(() => {
         console.log(status);
         console.log(sessionID);

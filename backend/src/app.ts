@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import { Server, Socket } from 'socket.io';
 import { SignUp } from './webutils/db';
 import Log from './webutils/log';
+import GetData from './webutils/access';
 import { AddSession, CheckRemoveSession } from './webutils/sessions';
 dotenv.config();
 
@@ -200,16 +201,23 @@ app.post('/get/data', async (req: Request, res: Response) => {
     //Retrieving data of username and password from session Key.
     const SessionObject: any = new CheckRemoveSession(sessionKey);
 
-    //Getting data
+    //Getting creds
     const mydata: any = await SessionObject.getSessionData();
 
     const username: string = mydata.username;
     const password: string = mydata.password;
 
-    res.json({
-        username : username,
-        password : password
-    })
+    //Retrieving data
+    const newObj: any = new GetData(username, password); //new Object
+    const Mydata: any = await newObj.getAllData(); //All the data.
+
+    let giveData: any = {}; // Initialize giveData object
+
+    contents.forEach((element: any) => {
+        giveData[element] = Mydata[element];
+    });
+
+    res.status(200).json(giveData);
 
 })
 server.listen(PORT, () => {
