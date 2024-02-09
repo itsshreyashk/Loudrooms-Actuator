@@ -187,6 +187,10 @@ app.post('/remove/sessions', async (req: Request, res: Response) => {
     }
 })
 // Start the server and listen on the specified port
+
+
+
+//Get whatever data you like.
 server.listen(PORT, () => {
     // Log a message indicating the server is listening
     console.log(`Server listening on port ${PORT}`);

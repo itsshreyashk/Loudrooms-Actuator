@@ -52,13 +52,21 @@ const HomeNav: React.FC<{ status: string }> = ({ status }) => {
                     </>
                 )}
                 {status === 'auth' && (
-                    <button type="button" className="bg-red-500 text-white px-4 py-2 rounded-full text-sm active:bg-red-600"
-                        onClick={() => {
-                            removeSession(localStorage.getItem('sauceKey'));
-                        }}
-                    >
-                        Logout
-                    </button>
+                    <>
+                        <button
+                            type="button"
+                            className="px-4 py-2 border text-sm bg-gradient-to-b from-white to-gray-300 hover:from-gray-300 hover:to-gray-500 focus:outline-none focus:ring focus:ring-gray-400 focus:ring-opacity-50"
+                        >
+                            Username
+                        </button>
+                        <button type="button" className="bg-red-500 text-white px-4 py-2 rounded-full text-sm active:bg-red-600"
+                            onClick={() => {
+                                removeSession(localStorage.getItem('sauceKey'));
+                            }}
+                        >
+                            Logout
+                        </button>
+                    </>
                 )}
             </div>
         </nav>
