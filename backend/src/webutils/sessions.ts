@@ -35,7 +35,6 @@ class CheckRemoveSession {
 
     async isSessionExist(): Promise<boolean> {
         const exists = await redis.exists(this.sessionID);
-        console.log(`Session ID "${this.sessionID}" exists in the Redis hash: ${exists === 1}`);
         return exists === 1;
     }
     async getSessionData(): Promise<{ username: string, password: string } | null> {
@@ -44,7 +43,6 @@ class CheckRemoveSession {
             if (exists === 1) {
                 const userData = await redis.hmget(this.sessionID, 'username', 'password');
                 if (userData[0] && userData[1]) {
-                    console.log(`Session ID "${this.sessionID}" exists in the Redis hash. Username: ${userData[0]}, Password: ${userData[1]}`);
                     return { username: userData[0], password: userData[1] };
                 } else {
                     console.log(`Error retrieving user data for session ID "${this.sessionID}" from Redis hash`);

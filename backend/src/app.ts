@@ -191,6 +191,27 @@ app.post('/remove/sessions', async (req: Request, res: Response) => {
 
 
 //Get whatever data you like.
+
+app.post('/get/data', async (req: Request, res: Response) => {
+    const body: any = req.body;
+    const contents: any = body.contents;
+    const sessionKey: any = body.sauceKey;
+
+    //Retrieving data of username and password from session Key.
+    const SessionObject: any = new CheckRemoveSession(sessionKey);
+
+    //Getting data
+    const mydata: any = await SessionObject.getSessionData();
+
+    const username: string = mydata.username;
+    const password: string = mydata.password;
+
+    res.json({
+        username : username,
+        password : password
+    })
+
+})
 server.listen(PORT, () => {
     // Log a message indicating the server is listening
     console.log(`Server listening on port ${PORT}`);
