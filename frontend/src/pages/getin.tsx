@@ -83,8 +83,11 @@ const GetIn: React.FC = () => {
                 if (REQUEST.success) {
                     // Request was successful
                     const mainData: any = REQUEST.data;
-                    localStorage.setItem('sauceKey', mainData.sauceKey);
-                    localStorage.setItem('status', 'auth');
+                    const sessionKey: any = mainData.sauceKey;
+                    console.log(`Session Key : ${sessionKey}`);
+
+                    localStorage.setItem('sauceKey', sessionKey);
+                    localStorage.setItem('statusLOUDROOMS', 'auth');
                 } else {
                     //only condition of request failed is username already exists.
                     alert("Username exists.");
@@ -102,10 +105,17 @@ const GetIn: React.FC = () => {
                 if (REQUEST.success) {
                     // Request was successful
                     const mainData: any = REQUEST.data;
-                    localStorage.setItem('sauceKey', mainData.sauceKey);
+                    const sessionKey: any = mainData.sauceKey;
+
+                    console.log(`Session Key : ${sessionKey}`);
+
+                    localStorage.setItem('sauceKey', sessionKey);
+                    localStorage.setItem('statusLOUDROOMS', 'auth');
+
+                    // location.href = '/home';
                 } else {
                     //only condition of request failed is username already exists.
-                    alert("Username exists.");
+                    alert("Failed Login attempt.");
                 }
 
             } catch (err: any) {

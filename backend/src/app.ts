@@ -5,6 +5,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { Server, Socket } from 'socket.io';
 import { SignUp } from './webutils/db';
+import Log from './webutils/log';
 import { AddSession, CheckRemoveSession } from './webutils/sessions';
 dotenv.config();
 
@@ -50,10 +51,78 @@ const getRandomSessionKey: any = () => {
     return yourKey;
 }
 
-app.post('/user/login', (req: Request, res: Response) => {
+app.post('/user/login', async (req: Request, res: Response) => {
     const body: any = req.body;
+    const username: string = body.username;
+    const password: string = body.password;
+    const newLogObject: any = new Log(username, password);
+
+    try {
+        const checkUser: any = await newLogObject.checkUser();
+        if (checkUser === true) {
+            console.log("User exists.");
+            const sauceKey: string = getRandomSessionKey();
+            await new AddSession(sauceKey, username, password).addSession();
+            res.status(200).json({
+                info: "Log In Successfull.",
+                sauceKey: sauceKey,
+            })
+
+        } else {
+            console.log("User does not exist.");
+            res.status(500).json({
+                info: "Log In not Successfull.",
+            })
+
+        }
+    } catch (err: any) {
+        res.send(500).json({
+            info: "Internal Server Error.",
+        })
+    }
 });
 
+//Peice of Code for later optimizations
+interface CreateUserInterface {
+    username: string,
+    password: string,
+    age: number,
+    gender: string,
+    email: string,
+}
+const CreateUser: (userData: CreateUserInterface) => Promise<any> = async (userData) => {
+    const newDatabaseObject: any = new SignUp(userData.username, userData.password, userData.age, userData.gender, userData.email)
+
+    try {
+        const status: any = await newDatabaseObject.createUser();
+
+        if (status === true) {
+            const sauceKey: string = getRandomSessionKey();
+
+
+            //make here to create sessions and associate them with username and password of the user...
+            await new AddSession(sauceKey, userData.username, userData.password).addSession();
+
+            console.log(`Created.`);
+
+            return {
+                info: "User created successfully.",
+                sauceKey: sauceKey,
+            }
+        } else {
+            return {
+                info: "Username already exists.",
+            }
+        }
+
+    } catch (err: any) {
+        console.log(`Failed. ${err}`);
+        return {
+            info: "Error creating user.",
+        }
+    }
+}
+//Piece ends here.
 app.post('/user/signup', async (req: Request, res: Response) => {
     const body: any = req.body;
 
