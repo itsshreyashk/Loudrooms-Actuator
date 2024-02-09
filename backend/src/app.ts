@@ -160,6 +160,32 @@ app.post('/user/signup', async (req: Request, res: Response) => {
         console.log(`Failed. ${err}`);
     }
 });
+
+
+
+app.post('/remove/sessions', async (req: Request, res: Response) => {
+    const body = req.body;
+    const sauceKey: string = body.sessionKey;
+
+    const newSessionObject = new CheckRemoveSession(sauceKey);
+
+    try {
+        const status: boolean = await newSessionObject.removeSession();
+        if (status) {
+            res.status(200).json({
+                status: true,
+            });
+        } else {
+            res.status(500).json({
+                status: false,
+            });
+        }
+    } catch (err: any) {
+        res.status(500).json({
+            status: false,
+        });
+    }
+})
 // Start the server and listen on the specified port
 server.listen(PORT, () => {
     // Log a message indicating the server is listening

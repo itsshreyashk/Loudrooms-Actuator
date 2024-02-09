@@ -6,6 +6,28 @@ interface NavProps {
 
 const HomeNav: React.FC<{ status: string }> = ({ status }) => {
     console.log(status);
+    const removeSession: any = async (sessionKey: string) => {
+        const URL: string = "http://localhost:3001/remove/sessions";
+        const fetchOptions: any = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ sessionKey: sessionKey }),
+        };
+        try {
+            const request: any = await fetch(URL, fetchOptions);
+            if (request.status === 200) {
+                localStorage.setItem('sauceKey', '');
+                location.href = '/getin';
+            } else {
+                console.log("FAIL");
+            }
+        } catch (err: any) {
+            console.log("FAIL");
+            alert("FAIL");
+        }
+    }
 
     return (
         <nav className="flex w-screen backdrop-blur-xl fixed justify-between items-center px-4 py-2 border-b">
@@ -30,7 +52,11 @@ const HomeNav: React.FC<{ status: string }> = ({ status }) => {
                     </>
                 )}
                 {status === 'auth' && (
-                    <button className="bg-red-500 text-white px-4 py-2 rounded-full text-sm active:bg-red-600">
+                    <button type="button" className="bg-red-500 text-white px-4 py-2 rounded-full text-sm active:bg-red-600"
+                        onClick={() => {
+                            removeSession(localStorage.getItem('sauceKey'));
+                        }}
+                    >
                         Logout
                     </button>
                 )}
