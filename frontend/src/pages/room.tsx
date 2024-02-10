@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import { Nav } from "../warehouse/nav";
+import { Link } from "react-router-dom";
 const Room: React.FC = () => {
     return (<>
         <Nav />
@@ -9,9 +10,9 @@ const Room: React.FC = () => {
 
                 {/* this whole part */}
                 <div className="p-1 other">
-                    <span className="font-bold text-sm">Sender</span>
+                    <Link className="font-bold text-sm" to={`/profile/shreyash`}>shreyash</Link>
                     <div role="message" className="w-full px-4 py-2 max-w-[max-content] bg-gray-200 max-w-[90%] rounded-full">
-                        <span className="text-sm">Hi! this is sample message sent by others.</span>
+                        <span className="text-sm">Hi! this is sample message sent by shreyash.</span>
                     </div>
                 </div>
 

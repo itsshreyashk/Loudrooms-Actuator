@@ -6,6 +6,7 @@ import GetIn from "./pages/getin";
 import Profile from "./pages/profile";
 import Room from "./pages/room";
 import { Redr } from "./warehouse/nav";
+import PubProfile from "./pages/pub-profile";
 const App: React.FC = () => {
   return (<>
     <BrowserRouter>
@@ -15,6 +16,9 @@ const App: React.FC = () => {
         <Route path="/getin" element={<GetIn />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/room/:roomKey" element={<Room />} />
+
+        <Route path="/profile/:username" element={<PubProfile />} />
+
       </Routes>
     </BrowserRouter>
   </>)

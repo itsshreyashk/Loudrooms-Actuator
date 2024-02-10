@@ -8,6 +8,7 @@ import { SignUp } from './webutils/db';
 import Log from './webutils/log';
 import GetData from './webutils/access';
 import { AddSession, CheckRemoveSession } from './webutils/sessions';
+import User from './public/myuser';
 dotenv.config();
 
 // Create an Express application
@@ -223,6 +224,22 @@ app.post('/get/data', async (req: Request, res: Response) => {
 app.post('/get/user', async (req: Request, res: Response) => {
     const body: any = req.body;
     const username: any = body.username;
+
+    console.log("Request");
+
+
+    try {
+        const UserObj: any = new User(username);
+        const Data: any = await UserObj.getData();
+
+        console.log(Data);
+
+        res.status(200).json(Data);
+    } catch (err: any) {
+        res.status(500).json({
+            status: "LOL"
+        });
+    }
 })
 server.listen(PORT, () => {
     // Log a message indicating the server is listening
