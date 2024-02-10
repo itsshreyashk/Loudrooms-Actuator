@@ -220,6 +220,10 @@ app.post('/get/data', async (req: Request, res: Response) => {
     res.status(200).json(giveData);
 
 })
+app.post('/get/user', async (req: Request, res: Response) => {
+    const body: any = req.body;
+    const username: any = body.username;
+})
 server.listen(PORT, () => {
     // Log a message indicating the server is listening
     console.log(`Server listening on port ${PORT}`);

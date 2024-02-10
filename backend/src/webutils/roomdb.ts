@@ -1,21 +1,30 @@
 import Redis from 'ioredis';
-const redis = new Redis();
+const redisClient = new Redis();
 
-class CreateRemoveRooms {
-    private roomID: string;
-    constructor(roomID: string) {
-        this.roomID = roomID;
+class RoomManager {
+    private roomKey: string;
+    constructor(roomKey: string) {
+        this.roomKey = roomKey;
     }
-
 }
-class CreateRemoveRoomUsers {
+
+class UserManager {
     private username: string;
-    constructor(username: string) {
+    private roomKey: string;
+    constructor(username: string, roomKey: string) {
         this.username = username;
+        this.roomKey = roomKey;
     }
 
 }
-class CreateRemoveMessages {
 
+class MessageManager {
+    private username: string;
+    private time: string;
+    constructor(username: string, time: string) {
+        this.username = username;
+        this.time = time;
+    }
 }
-export { CreateRemoveRooms, CreateRemoveRoomUsers, CreateRemoveMessages };
+
+export { RoomManager, UserManager, MessageManager };
