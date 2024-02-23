@@ -1,2 +1,2 @@
 # /start/:code
-Connecting platform.
+Connecting platform
